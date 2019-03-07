@@ -16,6 +16,18 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Image\Images.cshtml" />
+    <Content Remove="Views\Vote\votecreate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20190307151105_vote.cs" />
+    <Compile Remove="Migrations\20190307151105_vote.Designer.cs" />
+    <Compile Remove="Migrations\20190307163941_vote.cs" />
+    <Compile Remove="Migrations\20190307163941_vote.Designer.cs" />
+    <Compile Remove="Migrations\VoteDBContextModelSnapshot.cs" />
+  </ItemGroup>
 </Project>

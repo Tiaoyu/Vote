@@ -1,22 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyVote.Models
 {
-    [Table("image")]
-    public class ImageModel
+    [Serializable]
+    [Table("round")]
+    public class RoundModel
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("id", TypeName = "bigint(20)")]
-        public long Id { get; set; }
+        [Column("round_id", TypeName = "varchar(64)")]
+        public string RoundId { get; set; }
 
-        [Column("image_name", TypeName = "varchar(32)")]
-        public string ImageName { get; set; }
+        [Column("round_desc", TypeName = "varchar(255)")]
+        public string RoundDesc { get; set; }
+
+        [Column("round_begin_time", TypeName = "TIMESTAMP")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime RoundBeginTime { get; set; }
+
+        [Column("round_end_time", TypeName = "TIMESTAMP")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime RoundEndTime { get; set; }
 
         [Column("inserted", TypeName = "TIMESTAMP")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,11 +30,5 @@ namespace MyVote.Models
         [Column("lastupdated", TypeName = "TIMESTAMP")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LastUpdated { get; set; }
-
-        [Column("type_id", TypeName = "int(11)")]
-        public long TypeId { get; set; }
-
-        public TypeModel Type { get; set; }
-
     }
 }

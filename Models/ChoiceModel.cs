@@ -5,21 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MyVote.Models
 {
     [Serializable]
-    [Table("user")]
-    public class UserModel
+    [Table("choice")]
+    public class ChoiceModel
     {
         [Key]
-        [Column("user_id", TypeName = "varchar(64)")]
-        public string Id { get; set; }
+        [Column("choice_id", TypeName = "varchar(64)")]
+        public string ChoiceId { get; set; }
 
-        [Column("user_name", TypeName = "varchar(32)")]
-        public int UserName { get; set; }
-
-        [Column("user_mail", TypeName = "varchar(32)")]
-        public string UserIp { get; set; }
-
-        [Column("user_pwd", TypeName = "varchar(64)")]
-        public int UserPos { get; set; }
+        [Column("choice_content", TypeName = "varchar(255)")]
+        public string ChoiceContent { get; set; }
 
         [Column("inserted", TypeName = "TIMESTAMP")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,5 +22,9 @@ namespace MyVote.Models
         [Column("lastupdated", TypeName = "TIMESTAMP")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LastUpdated { get; set; }
+
+        [ForeignKey("round_id")]
+        public RoundModel Round { get; set; }
+
     }
 }

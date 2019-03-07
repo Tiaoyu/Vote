@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyVote.Models
 {
-    [Table("type")]
-    public class TypeModel
+    [Serializable]
+    [Table("targetype")]
+    public class TargetypeModel
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("id", TypeName = "bigint(20)")]
-        public long Id { get; set; }
+        [Column("targetype_id", TypeName = "varchar(64)")]
+        public string TargetypeId { get; set; }
 
-        [Column("type_name", TypeName = "varchar(32)")]
-        public string ImageName { get; set; }
-
-        [Column("type_desc", TypeName = "varchar(255)")]
-        public string TypeDesc { get; set; }
+        [Column("targetype_desc", TypeName = "varchar(255)")]
+        public string TargetypeDesc { get; set; }
 
         [Column("inserted", TypeName = "TIMESTAMP")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
