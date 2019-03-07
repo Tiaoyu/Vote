@@ -9,9 +9,10 @@ namespace MyVote
 {
     public class VoteDBContext:DbContext
     {
-        public DbSet<ImageModel> Images{ get; set; }
-        public DbSet<ScoreModel> Scores{ get; set; }
-        public DbSet<TypeModel> Types { get; set; }
+        public DbSet<RoundModel> Rounds{ get; set; }
+        public DbSet<TargetModel> Targets{ get; set; }
+        public DbSet<ChoiceModel> Choices { get; set; }
+        public DbSet<VoteModel> Votes { get; set; }
         public DbSet<UserModel> Users { get; set; }
 
         public VoteDBContext(DbContextOptions<VoteDBContext> options) : base(options)

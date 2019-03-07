@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyVote.Services;
 
 namespace MyVote
 {
@@ -31,6 +32,7 @@ namespace MyVote
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddScoped<VoteService>();
             services.AddDbContextPool<VoteDBContext>((opts) => { opts.UseMySql(Configuration.GetConnectionString("MySql")); });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

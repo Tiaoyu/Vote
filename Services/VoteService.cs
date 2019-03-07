@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace MyVote.Services
 {
-    public class ImageServices
+    public class VoteService
     {
         private VoteDBContext _voteDBContext { get; set; }
 
-        public ImageServices(VoteDBContext voteDBContext)
+        public VoteService(VoteDBContext voteDBContext)
         {
             _voteDBContext = voteDBContext;
         }
 
-        public void SaveImage(ImageModel imageModel)
+        public async Task SaveRoundAsync(RoundModel round)
         {
-            _voteDBContext.Images.Add(imageModel);
-            _voteDBContext.SaveChangesAsync();
+            _voteDBContext.Add(round);
+            await _voteDBContext.SaveChangesAsync();
         }
 
     }
