@@ -28,3 +28,18 @@ $("#round_form_submit").click(function(){
         }
     });
 });
+
+$('#target_form_submit').click(function(){
+    var data = new FormData($("#target_form")[0]);
+    $.ajax({
+        data: data,
+        type: "POST",
+        url : "/vote/uploadTargets",
+        cache: false,
+        contentType : false,
+        processData : false,
+        success: function(data){
+            console.log(data);
+        }
+    });
+});

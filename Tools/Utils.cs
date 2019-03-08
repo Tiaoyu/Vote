@@ -9,7 +9,7 @@ namespace MyVote.Tools
         /// <returns></returns>
         public static string GetGuid()
         {
-            return System.Guid.NewGuid().ToString();
+            return System.Guid.NewGuid().ToString().Replace("-", "");
         }
     }
 }

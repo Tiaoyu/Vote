@@ -23,5 +23,17 @@
         <input name="ChoiceContent" placeholder="描述" />
         <input name="ChoiceValue" placeholder="权重" />
     </form>
+
+    <hr/>
+    <h1 class="display-4">Create Target</h1>
+    <form id="target_form" method="post" enctype="multipart/form-data">
+        <input type="file" name="Targets" multiple="multiple" />
+        <input id="target_form_submit" type="button" value="upload"/>
+    </form>
+
+    <hr/>
+
+    <button class="btn-lg btn-warning">Create Vote!</button>
+
     <ul id="choice_info"></ul>
 </div>
