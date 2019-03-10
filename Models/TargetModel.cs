@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,5 +31,7 @@ namespace MyVote.Models
         public RoundModel Round { get; set; }
         [ForeignKey("targetype_id")]
         public TargetypeModel Targetype { get; set; }
+
+        public List<TargetChoiceModel> TargetChoices { get; set; }
     }
 }

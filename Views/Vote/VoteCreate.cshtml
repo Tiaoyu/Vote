@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Vote Creating";
+    var round = ViewData["ROUND"] as RoundModel ?? new RoundModel();
 }
 
 <div class="text-center">
@@ -9,20 +10,25 @@
         <input name="RoundDesc"  placeholder="描述" /><br/>
         <input name="RoundBeginTime" type="datetime" /><br/>
         <input name="RoundEndTime" type="datetime" /><br/>
-        <a class="btn-info btn-lg" id="round_form_submit" value="Create"></a>
+        <input type="button" class="btn-info btn-sm" id="round_form_submit" value="Create" />
     </form>
     <div id="round_info">
-        描述<label id="RoundDesc"></label>
-        开始时间<label id="RoundBeginTime"></label>
-        结束时间<label id="RoundEndTime"></label>
+        描述<label id="RoundDesc">@round.RoundDesc</label> &nbsp;&nbsp;
+        开始时间<label id="RoundBeginTime">@round.RoundBeginTime</label>&nbsp;&nbsp;
+        结束时间<label id="RoundEndTime">@round.RoundEndTime</label>
     </div>
     <hr />
 
     <h1 class="display-4">Create Choices</h1>
     <form id="choice_form">
-        <input name="ChoiceContent" placeholder="描述" />
-        <input name="ChoiceValue" placeholder="权重" />
+        <input type="hidden" name="RoundId" id="RoundId" value="@round.RoundId"/>
+        <input type="text" name="ChoiceContent" placeholder="描述" />
+        <input type="text" name="ChoiceValue" placeholder="权重" />
+        <input type="button" id="choice_form_submit" value="Create" />
     </form>
+    <ul id="choice_info">
+
+    </ul>
 
     <hr/>
     <h1 class="display-4">Create Target</h1>
@@ -32,8 +38,6 @@
     </form>
 
     <hr/>
-
     <button class="btn-lg btn-warning">Create Vote!</button>
-
-    <ul id="choice_info"></ul>
+    
 </div>

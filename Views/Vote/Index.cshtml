@@ -4,5 +4,16 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <a class="btn-danger" href="/vote/create">Create a voting activity</a>
+    <a type="button" class="btn-info" href="/vote/create" value="">Create a voting activity</a>
+
+    <div class="row">
+    @foreach (var round in ViewData["ROUND_LIST"] as List<RoundModel>)
+    {
+        <div name="RoundInfo" class="col-xs-4 col-sm-3">
+            <label>@round.RoundDesc</label><br />
+            <label>@round.RoundBeginTime</label><br /><label>@round.RoundEndTime</label><br/>
+            <a type="button" href="/vote/round?roundId=@round.RoundId">Detail</a><br />
+        </div>
+    }
+    </div>
 </div>

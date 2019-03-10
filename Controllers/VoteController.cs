@@ -16,7 +16,6 @@ namespace MyVote.Controllers
     [Route("/vote")]
     public class VoteController : Controller
     {
-        private readonly VoteDBContext _voteDBContext;
         private readonly VoteService _voteService;
         private readonly IHostingEnvironment he;
         public VoteController(VoteService voteService, IHostingEnvironment IHe)
@@ -24,9 +23,21 @@ namespace MyVote.Controllers
             _voteService = voteService;
             he = IHe;
         }
+
         public IActionResult Index()
         {
+            var rounds = _voteService.GetRoundList();
+            ViewData.Add("ROUND_LIST", rounds ?? new List<RoundModel>());
             return View();
+        }
+
+        [HttpGet]
+        [Route("round")]
+        public IActionResult RoundDetail(string roundId)
+        {
+            var round = _voteService.GetRoundById(roundId);
+            ViewData.Add("ROUND", round ?? new RoundModel());
+            return View("round");
         }
 
         /// <summary>
@@ -34,8 +45,22 @@ namespace MyVote.Controllers
         /// </summary>
         /// <returns>The create.</returns>
         [Route("create")]
-        public IActionResult Create()
+        public IActionResult CreateVoteRound()
         {
+            return View("votecreate");
+        }
+
+        /// <summary>
+        /// Modifies the round.
+        /// </summary>
+        /// <returns>The round.</returns>
+        /// <param name="roundId">Round identifier.</param>
+        [HttpGet]
+        [Route("modifyround")]
+        public IActionResult ModifyRound(string roundId)
+        {
+            var round = _voteService.GetRoundById(roundId)??new RoundModel();
+            ViewData.Add("ROUND", round);
             return View("votecreate");
         }
 
@@ -48,16 +73,41 @@ namespace MyVote.Controllers
         [Route("createround")]
         public async Task<IActionResult> CreateRoundAsync(RoundModel round)
         {
-            Console.Write(round.RoundDesc);
             var Round = new RoundModel
             {
-                RoundId = Utils.GetGuid(),
                 RoundDesc = round.RoundDesc,
                 RoundEndTime = round.RoundEndTime,
                 RoundBeginTime = round.RoundBeginTime
             };
+            if (string.IsNullOrEmpty(round.RoundId))
+            {
+                Round.RoundId = Utils.GetGuid();
+            }
             await _voteService.SaveRoundAsync(Round);
             return Ok(Round);
+        }
+
+        /// <summary>
+        /// Creates the choice async.
+        /// </summary>
+        /// <returns>The choice async.</returns>
+        /// <param name="choice">Choice.</param>
+        /// <param name="roundId">Round identifier.</param>
+        [HttpPost]
+        [Route("createchoice")]
+        public async Task<IActionResult> CreateChoiceAsync(ChoiceModel choice, string roundId)
+        {
+            var Choice = new ChoiceModel
+            {
+                ChoiceId = Utils.GetGuid(),
+                ChoiceContent = choice.ChoiceContent,
+                ChoiceValue = choice.ChoiceValue
+            };
+            var round = _voteService.GetRoundById(roundId);
+            if (round == null) return Ok("error");
+            Choice.Round = round;
+            await _voteService.SaveChioceAsync(Choice);
+            return Ok(choice);
         }
 
         /// <summary>

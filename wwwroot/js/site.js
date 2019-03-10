@@ -19,6 +19,7 @@ $("#round_form_submit").click(function(){
         success: function(data)
         {
             console.log(data);
+            $('#Round').val(data.roundId);
             $('#RoundDesc').text(data.roundDesc);
             $('#RoundBeginTime').text(data.roundBeginTime);
             $('#RoundEndTime').text(data.roundEndTime);
@@ -40,6 +41,28 @@ $('#target_form_submit').click(function(){
         processData : false,
         success: function(data){
             console.log(data);
+        }
+    });
+});
+
+$('#choice_form_submit').click(function(){
+    var data = new FormData($("#choice_form")[0]);
+    console.log(data);
+    $.ajax({
+        data: data,
+        type: "POST",
+        url : "/vote/createchoice",
+        cache: false,
+        contentType : false,
+        processData : false,
+        success: function(data){
+            console.log(data);
+            var li = document.createElement('li');
+            var lKey = document.createElement('label');
+            var lValue = document.createElement('label');
+            $(li).append(lKey);
+            $(li).append(lValue);
+            $('#choice_info').append(li);
         }
     });
 });
