@@ -27,9 +27,14 @@ namespace MyVote.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LastUpdated { get; set; }
 
-        [ForeignKey("round_id")]
+        [Column("round_id", TypeName = "varchar(64)")]
+        public string RoundId { get; set; }
+
         public RoundModel Round { get; set; }
-        [ForeignKey("targetype_id")]
+
+        [Column("targetype_id", TypeName = "varchar(64)")]
+        public string TargetypeId { get; set; }
+
         public TargetypeModel Targetype { get; set; }
 
         public List<TargetChoiceModel> TargetChoices { get; set; }

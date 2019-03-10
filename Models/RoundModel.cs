@@ -33,5 +33,6 @@ namespace MyVote.Models
         public DateTime LastUpdated { get; set; }
 
         public List<TargetModel> TargetList { get; set; }
+        public List<ChoiceModel> ChoiceList { get; set; }
     }
 }

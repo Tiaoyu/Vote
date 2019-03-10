@@ -19,7 +19,7 @@ $("#round_form_submit").click(function(){
         success: function(data)
         {
             console.log(data);
-            $('#Round').val(data.roundId);
+            $('#RoundId').val(data.roundId);
             $('#RoundDesc').text(data.roundDesc);
             $('#RoundBeginTime').text(data.roundBeginTime);
             $('#RoundEndTime').text(data.roundEndTime);
@@ -32,6 +32,7 @@ $("#round_form_submit").click(function(){
 
 $('#target_form_submit').click(function(){
     var data = new FormData($("#target_form")[0]);
+    data.append("RoundId", $('#RoundId').val());
     $.ajax({
         data: data,
         type: "POST",
@@ -39,14 +40,24 @@ $('#target_form_submit').click(function(){
         cache: false,
         contentType : false,
         processData : false,
-        success: function(data){
-            console.log(data);
+        success: function(da){
+            $.each(da, function () {
+                var d = document.createElement("div");
+                $(d).class = "col-xs-4 col-sm-3";
+                var i = document.createElement("img");
+                $(i).attr("src", "/img/" + this.targetContent);
+                $(i).attr("width", "150");
+
+                $(d).append(i);
+                $('#target_info').append(d);
+            });
         }
     });
 });
 
 $('#choice_form_submit').click(function(){
     var data = new FormData($("#choice_form")[0]);
+    data.append("RoundId", $('#RoundId').val());
     console.log(data);
     $.ajax({
         data: data,
@@ -58,7 +69,9 @@ $('#choice_form_submit').click(function(){
         success: function(data){
             console.log(data);
             var li = document.createElement('li');
+            $(li).text(data.choiceContent);
             var lKey = document.createElement('label');
+            $(lKey).text(data.choiceValue);
             var lValue = document.createElement('label');
             $(li).append(lKey);
             $(li).append(lValue);

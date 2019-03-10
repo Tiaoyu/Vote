@@ -8,14 +8,13 @@ Round
 | round_desc       | varchar(255) |
 | round_begin_time | timestamp    |
 | round_end_time   | timestamp    |
-|                  |              |
 
 Target
 
 | target_id      | varchar(64)  |
 | -------------- | ------------ |
 | target_desc    | varchar(255) |
-| target_type    | int(11)      |
+| targetype_id   | int(11)      |
 | target_content | varchar(255) |
 | round_id       | varchar(64)  |
 
@@ -25,7 +24,7 @@ Choice
 | -------------- | ------------ |
 | choice_content | varchar(255) |
 | choise_value   | int(11)      |
-| target_id      | varchar(64)  |
+| round_id      | varchar(64)  |
 
 Targetype
 
@@ -54,5 +53,12 @@ Vote
 | vote_id   | varchar(64) |
 | --------- | ----------- |
 | vote_time | timestamp   |
+| target_id | varchar(64) |
 | choice_id | varchar(64) |
 | user_id   | varchar(64) |
+
+```mermaid
+graph LR
+Choice --n--> TargetChoice
+TargetChoice --n--> Target
+```

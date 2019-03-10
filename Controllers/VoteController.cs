@@ -33,9 +33,9 @@ namespace MyVote.Controllers
 
         [HttpGet]
         [Route("round")]
-        public IActionResult RoundDetail(string roundId)
+        public async Task<IActionResult> RoundDetail(string roundId)
         {
-            var round = _voteService.GetRoundById(roundId);
+            var round = await _voteService.GetRoundById(roundId);
             ViewData.Add("ROUND", round ?? new RoundModel());
             return View("round");
         }
@@ -57,10 +57,16 @@ namespace MyVote.Controllers
         /// <param name="roundId">Round identifier.</param>
         [HttpGet]
         [Route("modifyround")]
-        public IActionResult ModifyRound(string roundId)
+        public async Task<IActionResult> ModifyRound(string roundId)
         {
-            var round = _voteService.GetRoundById(roundId)??new RoundModel();
+            var round = await _voteService.GetRoundById(roundId) ?? new RoundModel();
+            var choiceList = _voteService.GetChoiceListByRoundId(roundId);
+            var targetList = _voteService.GetTargetListByRoundId(roundId);
             ViewData.Add("ROUND", round);
+            ViewData.Add("CHOICE_LIST", choiceList);
+            ViewData.Add("TARGET_LIST", targetList);
+
+
             return View("votecreate");
         }
 
@@ -103,11 +109,38 @@ namespace MyVote.Controllers
                 ChoiceContent = choice.ChoiceContent,
                 ChoiceValue = choice.ChoiceValue
             };
-            var round = _voteService.GetRoundById(roundId);
+            var round = await _voteService.GetRoundById(roundId);
             if (round == null) return Ok("error");
             Choice.Round = round;
             await _voteService.SaveChioceAsync(Choice);
             return Ok(choice);
+        }
+
+        [HttpPost]
+        [Route("createvote")]
+        public async Task<IActionResult> CreateVote(string roundId)
+        {
+            var choiceList = _voteService.GetChoiceListByRoundId(roundId);
+            var targetList = _voteService.GetTargetListByRoundId(roundId);
+            var targetChoiceList = new List<TargetChoiceModel>();
+            foreach (var target in targetList)
+            {
+                foreach (var choice in choiceList)
+                {
+                    var tc = new TargetChoiceModel
+                    {
+                        Choice = choice,
+                        Target = target,
+                        ChoiceId = choice.ChoiceId,
+                        TargetId = target.TargetId
+                    };
+                    targetChoiceList.Add(tc);
+                }
+            }
+
+            await _voteService.SaveTargetChoiceList(targetChoiceList);
+
+            return View("/vote");
         }
 
         /// <summary>
@@ -117,24 +150,33 @@ namespace MyVote.Controllers
         [Produces("application/json")]
         [Consumes("application/json", "multipart/form-data")]
         [Route("uploadTargets")]
-        public async Task<IActionResult> UploadTargets()
+        public async Task<IActionResult> UploadTargets(string roundId)
         {
             // 是否有上传图片
             if (Request.Form.Files.Count <= 0)
             {
                 return Ok("ERROR");
             }
-            var picList = new List<string>();
+
+            var taragetList = new List<TargetModel>();
             // 当前上传的图片大小不为0
-            foreach(var picFile in Request.Form.Files)
+            foreach (var picFile in Request.Form.Files)
             {
                 var path = await UploadPic(picFile);
                 if (!string.IsNullOrEmpty(path))
                 {
-                    picList.Add(path);
+                    var target = new TargetModel
+                    {
+                        TargetContent = path,
+                        RoundId = roundId,
+                        TargetypeId = "1"
+                    };
+                    taragetList.Add(target);
                 }
             }
-            return Ok(picList);
+
+            await _voteService.SaveTargetList(taragetList);
+            return Ok(taragetList);
         }
 
         /// <summary>
