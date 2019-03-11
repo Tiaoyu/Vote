@@ -3,11 +3,20 @@
 *@
 @{
     var round = ViewData["ROUND"] as RoundModel;
+    ViewData["Title"] = round.RoundDesc;
     var targetList = ViewData["TARGET_LIST"] as List<TargetModel>;
     var choiceList = ViewData["CHOICE_LIST"] as List<ChoiceModel>;
 }
-<div>
-    <ul>
-
-    </ul>
+<div class="row">
+    @foreach (var target in targetList)
+    {
+    <div class="col-xs-4 col-sm-3">
+        <input type="hidden" />
+        <img width="150" src="~/img/@target.TargetContent" /><br />
+        @foreach (var choice in choiceList)
+        {
+            @choice.ChoiceContent<input type="checkbox" value="@choice.ChoiceValue" />@choice.ChoiceValue<br />
+        }
+    </div>
+    }
 </div>

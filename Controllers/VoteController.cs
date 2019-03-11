@@ -36,7 +36,13 @@ namespace MyVote.Controllers
         public async Task<IActionResult> RoundDetail(string roundId)
         {
             var round = await _voteService.GetRoundById(roundId);
+            var choiceList = _voteService.GetChoiceListByRoundId(roundId);
+            var targetList = _voteService.GetTargetListByRoundId(roundId);
+
             ViewData.Add("ROUND", round ?? new RoundModel());
+            ViewData.Add("CHOICE_LIST", choiceList ?? new List<ChoiceModel>());
+            ViewData.Add("TARGET_LIST", targetList ?? new List<TargetModel>());
+
             return View("round");
         }
 
@@ -140,7 +146,7 @@ namespace MyVote.Controllers
 
             await _voteService.SaveTargetChoiceList(targetChoiceList);
 
-            return View("/vote");
+            return View("Index");
         }
 
         /// <summary>
