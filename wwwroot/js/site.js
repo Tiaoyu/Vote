@@ -80,16 +80,25 @@ $('#choice_form_submit').click(function(){
     });
 });
 
-$('#vote_form_submit').click(function() {
+$('#vote_form_submit').click(function () {
     var data = new FormData($('#vote_form')[0]);
-    data.append("RoundId", $('#roundId').val());
+    var listVote = [];
+    $("div[name='target']").each(function (index, element) {
+        var targetId = $(element).children("input[name='targetId']").val();
+        var choiceId = $(element).children("input[type='radio']:checked").val();
+        console.log(targetId);
+        var vote = { "choiceId": choiceId, "targetId": targetId };
+        listVote.push(vote);
+    });
+    console.log(listVote);
+    data.append("listVote", listVote);
     //遍历单选框提交
     $.ajax({
         data: data,
         type: "POST",
-        url: "",
+        url: "/vote/savevote",
         cache: false,
         contentType: false,
-        processData: false,
+        processData: false
     });
 });

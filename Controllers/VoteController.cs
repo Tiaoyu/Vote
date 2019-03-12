@@ -38,6 +38,7 @@ namespace MyVote.Controllers
             var round = await _voteService.GetRoundById(roundId);
             var choiceList = _voteService.GetChoiceListByRoundId(roundId);
             var targetList = _voteService.GetTargetListByRoundId(roundId);
+            choiceList.Sort((c1, c2) => { return c1.ChoiceValue.CompareTo(c2.ChoiceValue); });
 
             ViewData.Add("ROUND", round ?? new RoundModel());
             ViewData.Add("CHOICE_LIST", choiceList ?? new List<ChoiceModel>());
@@ -149,6 +150,13 @@ namespace MyVote.Controllers
             return View("Index");
         }
 
+        [HttpPost]
+        [Route("savevote")]
+        public async Task<IActionResult> SaveVote(List<VoteModel> listVote, string roundId, string userName)
+        {
+
+            return View("Index");
+        }
         /// <summary>
         /// Uploads the targets.
         /// </summary>
