@@ -3,5 +3,5 @@
 /MyVote.csproj.user
 .vs
 .DS_Store
-/wwwroot/img
+/wwwroot/img/*
 Migrations

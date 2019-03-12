@@ -79,3 +79,17 @@ $('#choice_form_submit').click(function(){
         }
     });
 });
+
+$('#vote_form_submit').click(function() {
+    var data = new FormData($('#vote_form')[0]);
+    data.append("RoundId", $('#roundId').val());
+    //遍历单选框提交
+    $.ajax({
+        data: data,
+        type: "POST",
+        url: "",
+        cache: false,
+        contentType: false,
+        processData: false,
+    });
+});

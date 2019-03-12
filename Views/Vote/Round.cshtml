@@ -10,13 +10,27 @@
 <div class="row">
     @foreach (var target in targetList)
     {
-    <div class="col-xs-4 col-sm-3">
-        <input type="hidden" />
-        <img width="150" src="~/img/@target.TargetContent" /><br />
-        @foreach (var choice in choiceList)
-        {
-            @choice.ChoiceContent<input type="checkbox" value="@choice.ChoiceValue" />@choice.ChoiceValue<br />
-        }
-    </div>
+        <div class="col-xs-4 col-sm-3">
+            <input type="hidden" />
+            <img width="150" src="~/img/@target.TargetContent" /><br />
+            <div class="custom-radio">
+                @foreach (var choice in choiceList)
+                {
+                    <label>@choice.ChoiceContent</label>
+                    <input type="radio" name="@target.TargetId" value="@choice.ChoiceValue" />
+                    <label>@choice.ChoiceValue</label>
+                }
+            </div>
+        </div>
     }
+
+</div>
+<div class="row">
+    <div>
+        <form id="vote_form">
+            <input type="hidden" name="roundId" value="@round.RoundId"/>
+            <label>UserName</label><input name="userName" />
+            <input type="button" id="vote_form_submit" value="SUBMIT"/>
+        </form>
+    </div>
 </div>
