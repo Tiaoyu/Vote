@@ -33,7 +33,7 @@ namespace MyVote.Controllers
 
         [HttpGet]
         [Route("round")]
-        public async Task<IActionResult> RoundDetail(string roundId)
+        public async Task<IActionResult> RoundVote(string roundId)
         {
             var round = await _voteService.GetRoundById(roundId);
             var choiceList = _voteService.GetChoiceListByRoundId(roundId);
@@ -45,6 +45,17 @@ namespace MyVote.Controllers
             ViewData.Add("TARGET_LIST", targetList ?? new List<TargetModel>());
 
             return View("round");
+        }
+
+        public async Task<IActionResult> RoundDetail(string roundId)
+        {
+            var targetList = _voteService.GetTargetListByRoundId(roundId);
+            foreach (var target in targetList)
+            {
+                var voteList = _voteService.GetChoiceValueByTargetId(target.TargetId);
+            }
+
+            return View("RoundDetail");
         }
 
         /// <summary>
@@ -147,15 +158,28 @@ namespace MyVote.Controllers
 
             await _voteService.SaveTargetChoiceList(targetChoiceList);
 
+            var rounds = _voteService.GetRoundList();
+            ViewData.Add("ROUND_LIST", rounds ?? new List<RoundModel>());
             return View("Index");
         }
 
         [HttpPost]
+        [Produces("application/json")]
         [Route("savevote")]
-        public async Task<IActionResult> SaveVote(List<VoteModel> listVote, string roundId, string userName)
+        public async Task<IActionResult> SaveVote([FromBody] VoteViewModel model)
         {
+            if (model == null) return Ok("error");
 
-            return View("Index");
+            foreach (var voteInfo in model.ListVote)
+            {
+                voteInfo.VoteId = Utils.GetGuid();
+                voteInfo.UserId = model.UserName;
+            }
+
+            var res = VoteResponse.SUCCESS;
+            await _voteService.SaveVoteList(model.ListVote);
+
+            return Ok(res);
         }
         /// <summary>
         /// Uploads the targets.

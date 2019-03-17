@@ -8,11 +8,13 @@ using MyVote.Models;
 
 namespace MyVote.Controllers
 {
+
     public class HomeController : Controller
     {
+        [Route("/")]
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/vote");
         }
 
         public IActionResult Privacy()

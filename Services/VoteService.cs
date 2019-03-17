@@ -97,5 +97,19 @@ namespace MyVote.Services
             return _voteDBContext.Targetypes.ToList();
         }
         #endregion end CURD of Targetype
+
+        #region begion CURD of VoteChoice
+
+        public async Task SaveVoteList(List<VoteModel> list)
+        {
+            _voteDBContext.Votes.AddRange(list);
+            await _voteDBContext.SaveChangesAsync();
+        }
+
+        public List<VoteModel> GetChoiceValueByTargetId(string targetId)
+        {
+            return _voteDBContext.Votes.Where(target => target.TargetId == targetId).ToList();
+        }
+        #endregion
     }
 }

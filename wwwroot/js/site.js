@@ -81,24 +81,40 @@ $('#choice_form_submit').click(function(){
 });
 
 $('#vote_form_submit').click(function () {
-    var data = new FormData($('#vote_form')[0]);
+    var data = {};
     var listVote = [];
+    var isValid = true;
+
     $("div[name='target']").each(function (index, element) {
         var targetId = $(element).children("input[name='targetId']").val();
         var choiceId = $(element).children("input[type='radio']:checked").val();
-        console.log(targetId);
-        var vote = { "choiceId": choiceId, "targetId": targetId };
-        listVote.push(vote);
+        if (targetId === null || choiceId === null) {
+            isValid = false;
+            return;
+        }
+        listVote.push({ TargetId: targetId, ChoiceId: choiceId });
     });
-    console.log(listVote);
-    data.append("listVote", listVote);
+
+    if (isValid === false)
+    {
+        alert("one or more targets not be choosed!");
+        return;
+    }
+    data.roundId = $('#vote_form').children("input[name='roundId']").val();
+    data.userName = $('#vote_form').children("input[name='userName']").val();
+    data.listVote = listVote;
+    console.log(JSON.stringify(data));
     //遍历单选框提交
     $.ajax({
-        data: data,
-        type: "POST",
         url: "/vote/savevote",
-        cache: false,
-        contentType: false,
-        processData: false
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        type: "POST",
+        success: function (response) {
+            location.href("/vote");
+        },
+        error: function (xhr, resp, text) {
+            alert(text);
+        }
     });
 });
