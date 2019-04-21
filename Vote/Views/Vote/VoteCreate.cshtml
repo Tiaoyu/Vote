@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Vote Creating";
+    var round = ViewData["ROUND"] as RoundModel ?? new RoundModel();
+    var targetList = ViewData["TARGET_LIST"] as List<TargetModel> ?? new List<TargetModel>();
+    var choiceList = ViewData["CHOICE_LIST"] as List<ChoiceModel> ?? new List<ChoiceModel>();
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Create an Voting</h1>
+
+    <form id="round_form" method="post">
+        <input name="RoundDesc" placeholder="描述" /><br />
+        <input name="RoundBeginTime" type="datetime" /><br />
+        <input name="RoundEndTime" type="datetime" /><br />
+        <input type="button" class="btn-info btn-sm" id="round_form_submit" value="Create" />
+    </form>
+    <div id="round_info">
+        描述<label id="RoundDesc">@round.RoundDesc</label> &nbsp;&nbsp;
+        开始时间<label id="RoundBeginTime">@round.RoundBeginTime</label>&nbsp;&nbsp;
+        结束时间<label id="RoundEndTime">@round.RoundEndTime</label>
+    </div>
+    <hr />
+
+    <h1 class="display-4">Create Choices</h1>
+    <form id="choice_form">
+        <input type="text" name="ChoiceContent" placeholder="描述" />
+        <input type="text" name="ChoiceValue" placeholder="权重" />
+        <input type="button" id="choice_form_submit" value="Create" />
+    </form>
+    <ul id="choice_info">
+        @foreach (var choice in choiceList)
+        {
+            <li><label>@choice.ChoiceContent</label>----<label>@choice.ChoiceValue</label></li>
+        }
+    </ul>
+
+    <hr />
+    <h1 class="display-4">Create Target</h1>
+    <form id="target_form" method="post" enctype="multipart/form-data">
+        <input type="file" name="Targets" multiple="multiple" />
+        <input id="target_form_submit" type="button" value="upload" />
+    </form>
+    
+    <div id="target_info" class="row">
+    @foreach (var target in targetList)
+    {
+        <div  class="col-xs-4 col-sm-3">
+            <img width="150" src="/@target.TargetContent"/><br/>
+            <label>@target.TargetDesc</label>
+        </div>
+    }
+    </div>
+
+    <hr />
+    <form action="/vote/createvote" method="post">
+        <input type="hidden" name="RoundId" id="RoundId" value="@round.RoundId" />
+        <input type="submit" class="btn-lg btn-warning" value="Create Vote!" />
+    </form>
+
+</div>

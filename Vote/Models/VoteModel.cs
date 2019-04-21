@@ -31,6 +31,5 @@ namespace MyVote.Models
         [Column("target_id", TypeName = "varchar(64)")]
         public string TargetId { get; set; }
         public TargetModel Target { get; set; }
-
     }
 }

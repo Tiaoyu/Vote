@@ -12,7 +12,7 @@
     {
         <div name="target" class="col-xs-4 col-sm-3">
             <input type="hidden" name="targetId" value="@target.TargetId" />
-            <img width="150" src="~/img/@target.TargetContent" /><br />
+            <img width="150" src="~/@target.TargetContent" /><br />
                 @foreach (var choice in choiceList)
                 {
                     <input type="radio" name="@target.TargetId" value="@choice.ChoiceId" />

@@ -8,7 +8,7 @@ using MyVote.Models;
 
 namespace MyVote.Controllers
 {
-
+    [Controller]
     public class HomeController : Controller
     {
         [Route("/")]

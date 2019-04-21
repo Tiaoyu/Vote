@@ -47,6 +47,7 @@ namespace MyVote.Controllers
             return View("round");
         }
 
+        [Route("round")]
         public async Task<IActionResult> RoundDetail(string roundId)
         {
             var targetList = _voteService.GetTargetListByRoundId(roundId);
@@ -229,15 +230,25 @@ namespace MyVote.Controllers
             {
                 return null;
             }
+
             // 生成图片名
             var picName = Utils.GetGuid() + '.' + formFile.FileName.Split('.').Last();
+
+            // 检查文件夹目录是否存在
+            var picFolder = Path.Combine(he.WebRootPath, StaticValue.UPLOAD_FOLDER);
+            if (!Directory.Exists(picFolder))
+            {
+                Directory.CreateDirectory(picFolder);
+            }
+
             // 将图片存入指定文件夹
-            var uploadPath = Path.Combine(he.WebRootPath + "/img/", picName);
+            var uploadPath = Path.Combine(picFolder, picName);
             using (var stream = new FileStream(uploadPath, FileMode.Create))
             {
                 await formFile.CopyToAsync(stream);
             }
-            return picName;
+
+            return Path.Combine(StaticValue.UPLOAD_FOLDER, picName);
         }
     }
 }

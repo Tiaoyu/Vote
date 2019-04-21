@@ -1,7 +1,9 @@
-/obj
-/bin
-/MyVote.csproj.user
+.vs
+Publish
+obj
+bin
+*.csproj.user
 .vs
 .DS_Store
-/wwwroot/img/*
+upload
 Migrations
