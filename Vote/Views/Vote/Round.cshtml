@@ -7,17 +7,18 @@
     var targetList = ViewData["TARGET_LIST"] as List<TargetModel>;
     var choiceList = ViewData["CHOICE_LIST"] as List<ChoiceModel>;
 }
+
 <div class="row">
     @foreach (var target in targetList)
     {
-        <div name="target" class="col-xs-4 col-sm-3">
+        <div name="target" class="col-xs-4 col-sm-3" style="vertical-align:middle">
             <input type="hidden" name="targetId" value="@target.TargetId" />
             <img width="150" src="~/@target.TargetContent" /><br />
-                @foreach (var choice in choiceList)
-                {
-                    <input type="radio" name="@target.TargetId" value="@choice.ChoiceId" />
-                    <label>@choice.ChoiceValue</label>
-                }
+            @foreach (var choice in choiceList)
+            {
+                <input type="radio" name="@target.TargetId" value="@choice.ChoiceId" />
+                <label>@choice.ChoiceValue</label>
+            }
         </div>
     }
 

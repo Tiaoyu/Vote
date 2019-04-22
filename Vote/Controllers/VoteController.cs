@@ -47,14 +47,30 @@ namespace MyVote.Controllers
             return View("round");
         }
 
-        [Route("round")]
-        public async Task<IActionResult> RoundDetail(string roundId)
+        [HttpGet]
+        [Route("roundetail")]
+        public IActionResult RoundDetail(string roundId)
         {
             var targetList = _voteService.GetTargetListByRoundId(roundId);
+            var roundViewList = new List<RoundViewModel>();
             foreach (var target in targetList)
             {
                 var voteList = _voteService.GetChoiceValueByTargetId(target.TargetId);
+                var voteValue = 0;
+                foreach (var vote in voteList)
+                {
+                    var choice = _voteService.GetChoice(vote.ChoiceId);
+                    voteValue += choice.ChoiceValue;
+                }
+
+                roundViewList.Add(new RoundViewModel
+                {
+                    TargetId = target.TargetId,
+                    TargetContent = target.TargetContent,
+                    TargetValue = voteValue
+                });
             }
+            ViewData.Add("VOTE_LIST", roundViewList);
 
             return View("RoundDetail");
         }

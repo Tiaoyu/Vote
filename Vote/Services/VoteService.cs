@@ -60,6 +60,11 @@ namespace MyVote.Services
             await _voteDBContext.SaveChangesAsync();
         }
 
+        public ChoiceModel GetChoice(string choiceId)
+        {
+            return _voteDBContext.Choices.Find(choiceId);
+        }
+
         public List<ChoiceModel> GetChoiceListByRoundId(string roundId)
         {
             var list = _voteDBContext.Choices.Where(choice => choice.RoundId.Equals(roundId)).ToList();

@@ -15,7 +15,7 @@ namespace MyVote.Controllers
         [Route("upload")]
         [Produces("application/json")]
         [Consumes("application/json", "multipart/form-data")]
-        public IActionResult Upload( )
+        public IActionResult Upload()
         {
             return View(); 
         }
