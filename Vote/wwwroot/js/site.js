@@ -45,7 +45,7 @@ $('#target_form_submit').click(function(){
                 var d = document.createElement("div");
                 $(d).class = "col-xs-4 col-sm-3";
                 var i = document.createElement("img");
-                $(i).attr("src", "/img/" + this.targetContent);
+                $(i).attr("src", "/" + this.targetContent);
                 $(i).attr("width", "150");
 
                 $(d).append(i);
@@ -111,7 +111,8 @@ $('#vote_form_submit').click(function () {
         contentType: "application/json",
         type: "POST",
         success: function (response) {
-            location.href("/vote");
+            alert("vote success");
+            location.href = "/vote";
         },
         error: function (xhr, resp, text) {
             alert(text);

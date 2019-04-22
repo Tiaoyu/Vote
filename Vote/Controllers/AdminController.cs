@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MyVote.Controllers
 {
+    [Controller]
+    [Route("admin")]
     public class AdminController : Controller
     {
         public IActionResult Index()

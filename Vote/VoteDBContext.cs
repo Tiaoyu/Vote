@@ -28,6 +28,7 @@ namespace MyVote
             modelBuilder.Entity<TargetChoiceModel>().HasOne(tc => tc.Choice).WithMany(tc => tc.TargetChoices);
         }
 
+
         public VoteDBContext(DbContextOptions<VoteDBContext> options) : base(options)
         {
         }

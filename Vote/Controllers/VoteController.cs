@@ -222,6 +222,7 @@ namespace MyVote.Controllers
                 {
                     var target = new TargetModel
                     {
+                        TargetId = Tools.Utils.GetGuid(),
                         TargetContent = path,
                         RoundId = roundId,
                         TargetypeId = "1"
